@@ -16,7 +16,7 @@ import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBui
 import java.util.List;
 import java.util.stream.Collectors;
 
-@Controller
+@RestController
 @CrossOrigin("http://localhost:8081")
 public class FilesController {
 
@@ -37,6 +37,7 @@ public class FilesController {
         }
     }
 
+    @GetMapping("/files")
     public ResponseEntity<List<FileInfo>> getListFiles() {
         List<FileInfo> fileInfos = filesStorageService.loadAll().map(path -> {
             String filename = path.getFileName().toString();
