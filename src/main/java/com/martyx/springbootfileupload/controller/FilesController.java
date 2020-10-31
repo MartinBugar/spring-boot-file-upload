@@ -54,7 +54,7 @@ public class FilesController {
 
     @GetMapping("/files/{filename:.+}")
     @ResponseBody
-    public ResponseEntity<Resource> getFile(@PathVariable String filename) {
+    public ResponseEntity<Resource>  downloadFile(@PathVariable String filename) {
         org.springframework.core.io.Resource file = filesStorageService.load(filename);
         return ResponseEntity
                 .ok()
@@ -64,8 +64,10 @@ public class FilesController {
 
     @DeleteMapping("/files/deleteAll")
     public ResponseEntity<ResponseMessage> deleteAll(){
+        String message = null;
         filesStorageService.deleteAll();
-        return ResponseEntity.ok().build();
+        message = "All files was deleted ";
+        return ResponseEntity.ok().body(new ResponseMessage(message));
     }
 
     @DeleteMapping("/deleteFile/{filename:.+}")
