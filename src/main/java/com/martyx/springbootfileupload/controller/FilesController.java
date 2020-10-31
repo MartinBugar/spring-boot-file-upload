@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.mvc.method.annotation.MvcUriComponentsBuilder;
 
+import java.io.IOException;
+import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,5 +60,17 @@ public class FilesController {
                 .ok()
                 .header(HttpHeaders.CONTENT_DISPOSITION, "attachment; filename=\"" + file.getFilename() + "\"")
                 .body(file);
+    }
+
+    @DeleteMapping("/files/deleteAll")
+    public ResponseEntity<ResponseMessage> deleteAll(){
+        filesStorageService.deleteAll();
+        return ResponseEntity.ok().build();
+    }
+
+    @DeleteMapping("/deleteFile/{filename:.+}")
+    public ResponseEntity<Path> deleteFile(@PathVariable String filename) throws IOException {
+        filesStorageService.deleteFile(filename);
+        return ResponseEntity.ok().build();
     }
 }
